@@ -9,17 +9,17 @@ public class OperatorProcessor {
 
     public static Integer processOperator(String command, Integer firstValue, Integer secondValue) {
             switch (command) {
-                case "+":
+                case Operators.PLUS:
                     return plus(firstValue, secondValue);
-                case "-":
+                case Operators.MINUS:
                     return minus(firstValue, secondValue);
-                case "*":
+                case Operators.MULTIPLY:
                     return multiply(firstValue, secondValue);
-                case ("/"):
+                case Operators.DIVIDE:
                     return divide(firstValue, secondValue);
-                case "%":
+                case Operators.MODULUS:
                     return modulus(firstValue, secondValue);
-                case "^":
+                case Operators.POWER:
                     return powerOf(firstValue, secondValue);
                 default:
                     throw new IllegalStateException("Unexpected value: " + command);
