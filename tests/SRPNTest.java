@@ -4,15 +4,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SRPNTest {
 
-    @Test
+    @AfterEach
+    public final void cleanup(){
+        Stack.clear();
+    }
 
+    @Test
      void processCommands_NumberIsGiven_SavesNumbers() {
         SRPN srpn = new SRPN();
 
         srpn.processCommand("1");
 
-        assertEquals(1, srpn.numberInputs.removeFirst());
+        assertEquals(1, Stack.removeNumber());
     }
+
 
     //Test 1.1
     @Test
@@ -23,7 +28,7 @@ public class SRPNTest {
         srpn.processCommand("2");
         srpn.processCommand("+");
 
-        String output = OperatorProcessor.processEquals(srpn.currentAnswer);
+        String output = OperatorProcessor.processEquals();
 
         assertEquals("12",output);
     }
@@ -36,7 +41,7 @@ public class SRPNTest {
         srpn.processCommand("11");
         srpn.processCommand("3");
         srpn.processCommand("-");
-        String output = OperatorProcessor.processEquals(srpn.currentAnswer);
+        String output = OperatorProcessor.processEquals();
 
         assertEquals("8", output);
     }
@@ -49,7 +54,7 @@ public class SRPNTest {
         srpn.processCommand("9");
         srpn.processCommand("4");
         srpn.processCommand("*");
-        String output = OperatorProcessor.processEquals(srpn.currentAnswer);
+        String output = OperatorProcessor.processEquals();
 
         assertEquals("36", output);
     }
@@ -62,7 +67,7 @@ public class SRPNTest {
         srpn.processCommand("11");
         srpn.processCommand("3");
         srpn.processCommand("/");
-        String output = OperatorProcessor.processEquals(srpn.currentAnswer);
+        String output = OperatorProcessor.processEquals();
 
         assertEquals("3", output);
     }
@@ -75,7 +80,7 @@ public class SRPNTest {
         srpn.processCommand("11");
         srpn.processCommand("3");
         srpn.processCommand("%");
-        String output = OperatorProcessor.processEquals(srpn.currentAnswer);
+        String output = OperatorProcessor.processEquals();
 
         assertEquals("2", output);
     }
@@ -87,7 +92,7 @@ public class SRPNTest {
         srpn.processCommand("3");
         srpn.processCommand("3");
         srpn.processCommand("^");
-        String output = OperatorProcessor.processEquals(srpn.currentAnswer);
+        String output = OperatorProcessor.processEquals();
 
         assertEquals("27", output);
     }
@@ -96,7 +101,9 @@ public class SRPNTest {
     void processCommands_EqualsWhenNoAnswer_ReturnsStackEmptyMessage() {
         SRPN srpn = new SRPN();
 
-        String output = OperatorProcessor.processEquals(srpn.currentAnswer);
+        Stack.clear();
+
+        String output = OperatorProcessor.processEquals();
 
         assertEquals("Stack empty.", output);
     }
@@ -113,7 +120,7 @@ public class SRPNTest {
         srpn.processCommand("*");
         srpn.processCommand("+");
 
-        String output = OperatorProcessor.processEquals(srpn.currentAnswer);
+        String output = OperatorProcessor.processEquals();
 
         assertEquals("25", output);
     }
@@ -130,7 +137,7 @@ public class SRPNTest {
         srpn.processCommand("*");
         srpn.processCommand("+");
 
-        String output = OperatorProcessor.processEquals(srpn.currentAnswer);
+        String output = OperatorProcessor.processEquals();
 
         assertEquals("25", output);
     }
@@ -141,7 +148,7 @@ public class SRPNTest {
 
         srpn.processCommand("3 3 +");
 
-        String output = OperatorProcessor.processEquals(srpn.currentAnswer);
+        String output = OperatorProcessor.processEquals();
 
         assertEquals("6", output);
     }
@@ -155,7 +162,7 @@ public class SRPNTest {
         srpn.processCommand("+");
         srpn.processCommand("=");
 
-        String output = OperatorProcessor.processEquals(srpn.currentAnswer);
+        String output = OperatorProcessor.processEquals();
 
         assertEquals("2147483647", output);
     }
@@ -172,7 +179,7 @@ public class SRPNTest {
         srpn.processCommand("-");
         srpn.processCommand("=");
 
-        String output = OperatorProcessor.processEquals(srpn.currentAnswer);
+        String output = OperatorProcessor.processEquals();
 
         assertEquals("-2147483648", output);
     }

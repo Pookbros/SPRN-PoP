@@ -9,7 +9,7 @@ import java.util.*;
 public class SRPN {
 
     Integer currentAnswer;
-    Deque<Integer> numberInputs = new ArrayDeque<>();
+    //Deque<Integer> numberInputs = new ArrayDeque<>();
 
     /**
      * Returns a String with the result of the current command to be printed to the console.
@@ -20,6 +20,18 @@ public class SRPN {
      * @param command the command to be processed
      */
     public void processCommand(String command) throws IllegalStateException {
+        // Is it an integer?
+        // Is it an allowed operator?
+        // Is it 'd'?
+        // Else throw
+
+        // Split input line out into individual commands
+        // If command is invalid, print to console and continue
+        // If it's 'd', print everything and continue
+        // Other custom letter commands next
+        // If it's a number, add it to the stack of numbers
+        // If it's an operator, apply it to the stack of numbers
+
         String[] commandList = command.split(" ");
 
         // Check for single line input (i.e. "3 3 + ")
@@ -29,52 +41,31 @@ public class SRPN {
                 processCommand(c);
             }
         } else {
+            if (OperatorProcessor.commentMode) {
+                if (command.contains(Operators.COMMENT)) {
+                    OperatorProcessor.commentMode = false;
+                }
+                return;
+            }
             // Try parse command to a number and add it to the stack
-            try {
-                Integer numberInput = Integer.parseInt(command);
-                numberInputs.addFirst(numberInput);
-            } catch (NumberFormatException e) {
-                // Iterate through command string
-                for (int i = 0; i < command.length(); i++) {
-                    String singleCommand = String.valueOf(command.charAt(i));
-                    // Check if command contains an equals first
-                    if (singleCommand.contains(Operators.EQUALS)) {
-                        System.out.println(OperatorProcessor.processEquals(numberInputs.peekFirst()));
-                    }
-                    // Then do other operations
-                    if (singleCommand.contains("d")) {
-                        printOutInputs();
-                    } else {
-                        processOperator(singleCommand);
+            if (!Stack.addNumber(command)) {
+                // First check command for "=" (accounts for command such as "+=")
+                if (command.contains(Operators.EQUALS)) {
+                    System.out.println(OperatorProcessor.processEquals());
+                    command = command.replace(Operators.EQUALS, "");
+                }
+                if (!command.isEmpty()) {
+                    try {
+                        OperatorProcessor.process(command);
+
+                    } catch (NoSuchElementException ex) {
+                        System.out.println("Stack underflow.");
+                    } catch (ArithmeticException ex) {
+                        System.out.println("Divide by 0.");
                     }
                 }
             }
         }
-
-    }
-
-    private void processOperator(String command) {
-        try {
-            Integer secondValue = numberInputs.removeFirst();
-            Integer firstValue = numberInputs.removeFirst();
-
-            currentAnswer = OperatorProcessor.process(command, firstValue, secondValue);
-            if (currentAnswer == null) {
-                System.out.println("Unrecognised operator or operand \"" + command + "\"");
-            } else {
-                numberInputs.addFirst(currentAnswer);
-            }
-
-        } catch (IndexOutOfBoundsException ex) {
-            System.out.println("Stack underflow.");
-        } catch (ArithmeticException ex) {
-            System.out.println("Divide by 0.");
-        }
-    }
-
-    private void printOutInputs() {
-        for (int input : numberInputs)
-            System.out.println(input);
     }
 }
 

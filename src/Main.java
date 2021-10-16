@@ -29,7 +29,7 @@ class Main {
         // Code to take input from the command line
         // This input is passed to the processCommand
         // method in SRPN.java
-        SRPN sprn = new SRPN();
+        SRPN srpn = new SRPN();
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
@@ -43,7 +43,7 @@ class Main {
                     System.exit(0);
                 }
                 //Otherwise, (attempt to) process the character
-                sprn.processCommand(command);
+                srpn.processCommand(command);
             }
         }
         catch(IOException e) {

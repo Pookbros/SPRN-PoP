@@ -1,73 +1,127 @@
+
+import java.util.NoSuchElementException;
+
 public class OperatorProcessor {
 
-    public static String processEquals(Integer currentAnswer) {
+    static boolean commentMode = false;
+    private static final int[] randomNumber = new int[] {1804289383,846930886,1681692777, 1714636915, 1957747793, 424238335, 719885386,
+            1649760492, 596516649, 1189641421, 1025202362, 1350490027, 783368690, 1102520059, 2044897763, 1967513926,
+            1365180540, 1540383426, 304089172, 1303455736, 35005211, 521595368, 1804289383 };
+    private static  int randomSeed = 0;
+
+    public static String processEquals() {
+        Integer currentAnswer = Stack.peekNumber();
+
         if (currentAnswer == null)
             return "Stack empty.";
         else
             return formatOutput(currentAnswer);
     }
 
-    public static Integer process(String command, Integer firstValue, Integer secondValue) {
+    public static void process(String operator) {
         // Using long for the result so the code can check whether the value is higher than the max or min int value
         long result;
-        switch (command) {
+
+        switch (operator) {
             case Operators.PLUS:
-                result = plus(firstValue, secondValue);
+                checkStackLength();
+                result = plus(Stack.removeNumber(), Stack.removeNumber());
+                addResultToStack(result);
                 break;
             case Operators.MINUS:
-                result = minus(firstValue, secondValue);
+                checkStackLength();
+                result = minus(Stack.removeNumber(), Stack.removeNumber());
+                addResultToStack(result);
                 break;
             case Operators.MULTIPLY:
-                result = multiply(firstValue, secondValue);
+                checkStackLength();
+                result = multiply(Stack.removeNumber(), Stack.removeNumber());
+                addResultToStack(result);
                 break;
             case Operators.DIVIDE:
-                result = divide(firstValue, secondValue);
+                checkStackLength();
+                result = divide(Stack.removeNumber(), Stack.removeNumber());
+                addResultToStack(result);
                 break;
             case Operators.MODULUS:
-                result = modulus(firstValue, secondValue);
+                checkStackLength();
+                result = modulus(Stack.removeNumber(), Stack.removeNumber());
+                addResultToStack(result);
                 break;
             case Operators.POWER:
-                result = powerOf(firstValue, secondValue);
+                checkStackLength();
+                result = powerOf(Stack.removeNumber(), Stack.removeNumber());
+                addResultToStack(result);
                 break;
-          default:
-              return null;
+            case Operators.PRINT:
+                Stack.printNumbers();
+                return;
+            case Operators.COMMENT:
+                commentMode = true;
+                return;
+            case Operators.RANDOM:
+                processRandom();
+                return;
+            default:
+                System.out.println("Unrecognised operator or operand \"" + operator + "\"");
         }
-
-        // Handle int saturation
-        if (result < Integer.MIN_VALUE){
-            return Integer.MIN_VALUE;
-        }
-        if (result > Integer.MAX_VALUE){
-            return Integer.MAX_VALUE;
-        }
-        return (int) result;
     }
+
+    private static void processRandom() {
+        try {
+            Stack.addNumber(randomNumber[randomSeed]);
+            randomSeed++;
+        }
+        catch (ArrayIndexOutOfBoundsException e){
+            System.out.println("Stack overflow.");
+        }
+    }
+
+    private static void addResultToStack(long result) {
+        // Handle int saturation
+        if (result < Integer.MIN_VALUE) {
+            Stack.addNumber(Integer.MIN_VALUE);
+        } else if (result > Integer.MAX_VALUE) {
+            Stack.addNumber(Integer.MAX_VALUE);
+        } else {
+            Stack.addNumber((int) result);
+        }
+    }
+
+
 
     private static String formatOutput(Integer output) {
         return String.format("%s", output);
     }
 
-    private static long plus(long value1, Integer value2) {
+    // Checks stack size before removing any elements
+    private static void checkStackLength() {
+        if (Stack.size() < 2) {
+            throw new NoSuchElementException();
+        }
+    }
+
+    private static long plus(long value2, long value1) {
         return value1 + value2;
     }
 
-    private static long minus(Integer value1, Integer value2) {
+    private static long minus(long value2, long value1) {
         return value1 - value2;
     }
 
-    private static long multiply(Integer value1, Integer value2) {
-        return (long) value1 * value2;
+    private static long multiply(long value2, long value1) {
+        return value1 * value2;
     }
 
-    private static long divide(Integer value1, Integer value2) {
+    private static long divide(long value2, long value1) {
         return value1 / value2;
     }
 
-    private static long modulus(Integer value1, Integer value2) {
+    private static long modulus(long value2, long value1) {
         return value1 % value2;
     }
 
-    private static long powerOf(Integer value, Integer power) {
+    private static long powerOf(long power, long value) {
         return (int) Math.pow(value, power);
     }
 }
