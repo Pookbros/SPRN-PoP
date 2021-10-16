@@ -7,50 +7,66 @@ public class OperatorProcessor {
             return formatOutput(currentAnswer);
     }
 
-    public static Integer process(char command, Integer firstValue, Integer secondValue) {
+    public static Integer process(String command, Integer firstValue, Integer secondValue) {
+        // Using long for the result so the code can check whether the value is higher than the max or min int value
+        long result;
         switch (command) {
             case Operators.PLUS:
-                return plus(firstValue, secondValue);
+                result = plus(firstValue, secondValue);
+                break;
             case Operators.MINUS:
-                return minus(firstValue, secondValue);
+                result = minus(firstValue, secondValue);
+                break;
             case Operators.MULTIPLY:
-                return multiply(firstValue, secondValue);
+                result = multiply(firstValue, secondValue);
+                break;
             case Operators.DIVIDE:
-                return divide(firstValue, secondValue);
+                result = divide(firstValue, secondValue);
+                break;
             case Operators.MODULUS:
-                return modulus(firstValue, secondValue);
+                result = modulus(firstValue, secondValue);
+                break;
             case Operators.POWER:
-                return powerOf(firstValue, secondValue);
-            default:
-                return null;
+                result = powerOf(firstValue, secondValue);
+                break;
+          default:
+              return null;
         }
+
+        if (result < Integer.MIN_VALUE){
+            return Integer.MIN_VALUE;
+        }
+        if (result > Integer.MAX_VALUE){
+            return Integer.MAX_VALUE;
+        }
+        return (int) result;
     }
 
     private static String formatOutput(Integer output) {
         return String.format("%s", output);
     }
 
-    private static Integer plus(Integer value1, Integer value2) {
+    private static long plus(long value1, Integer value2) {
         return value1 + value2;
     }
 
-    private static Integer minus(Integer value1, Integer value2) {
+    private static long minus(Integer value1, Integer value2) {
         return value1 - value2;
     }
 
-    private static Integer multiply(Integer value1, Integer value2) {
-        return value1 * value2;
+    private static long multiply(Integer value1, Integer value2) {
+        return (long) value1 * value2;
     }
 
-    private static Integer divide(Integer value1, Integer value2) {
+    private static long divide(Integer value1, Integer value2) {
         return value1 / value2;
     }
 
-    private static Integer modulus(Integer value1, Integer value2) {
+    private static long modulus(Integer value1, Integer value2) {
         return value1 % value2;
     }
 
-    private static Integer powerOf(Integer value, Integer power) {
+    private static long powerOf(Integer value, Integer power) {
         return (int) Math.pow(value, power);
     }
 }

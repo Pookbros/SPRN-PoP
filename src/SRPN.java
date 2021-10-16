@@ -24,6 +24,7 @@ public class SRPN {
 
         // Check for single line input (i.e. "3 3 + ")
         if (commandList.length > 1) {
+            // Recursively call this method for each string in commandList
             for (String c : commandList) {
                 processCommand(c);
             }
@@ -34,16 +35,13 @@ public class SRPN {
                 numberInputs.addFirst(numberInput);
             } catch (NumberFormatException e) {
                 // Check if command contains an equals first
-                if (command.indexOf(Operators.EQUALS) >= 0) {
+                if (command.contains(Operators.EQUALS)) {
                     System.out.println(OperatorProcessor.processEquals(numberInputs.peekFirst()));
-
-                    // Remove the equals from the command
-                    command = command.replace(Operators.EQUALS, ' ').trim();
                 }
                 // Then do other operations
-                if (command.indexOf('d') >= 0) {
+                if (command.contains("d") ) {
                     printOutInputs();
-                } else {
+                } else if (!command.isEmpty()) {
                     processOperator(command);
                 }
             }
@@ -56,7 +54,7 @@ public class SRPN {
             Integer secondValue = numberInputs.removeFirst();
             Integer firstValue = numberInputs.removeFirst();
 
-            currentAnswer = OperatorProcessor.process(command.charAt(0), firstValue, secondValue);
+            currentAnswer = OperatorProcessor.process(command, firstValue, secondValue);
             if (currentAnswer == null) {
                 System.out.println("Unrecognised operator or operand \"" + command + "\"");
             } else {
