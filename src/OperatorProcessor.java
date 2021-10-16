@@ -7,23 +7,23 @@ public class OperatorProcessor {
             return formatOutput(currentAnswer);
     }
 
-    public static Integer processOperator(String command, Integer firstValue, Integer secondValue) {
-            switch (command) {
-                case "+":
-                    return plus(firstValue, secondValue);
-                case "-":
-                    return minus(firstValue, secondValue);
-                case "*":
-                    return multiply(firstValue, secondValue);
-                case ("/"):
-                    return divide(firstValue, secondValue);
-                case "%":
-                    return modulus(firstValue, secondValue);
-                case "^":
-                    return powerOf(firstValue, secondValue);
-                default:
-                    throw new IllegalStateException("Unexpected value: " + command);
-            }
+    public static Integer process(char command, Integer firstValue, Integer secondValue) {
+        switch (command) {
+            case Operators.PLUS:
+                return plus(firstValue, secondValue);
+            case Operators.MINUS:
+                return minus(firstValue, secondValue);
+            case Operators.MULTIPLY:
+                return multiply(firstValue, secondValue);
+            case Operators.DIVIDE:
+                return divide(firstValue, secondValue);
+            case Operators.MODULUS:
+                return modulus(firstValue, secondValue);
+            case Operators.POWER:
+                return powerOf(firstValue, secondValue);
+            default:
+                return null;
+        }
     }
 
     private static String formatOutput(Integer output) {

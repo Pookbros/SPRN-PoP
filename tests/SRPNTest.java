@@ -1,4 +1,3 @@
-import jdk.jfr.Category;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -12,7 +11,7 @@ public class SRPNTest {
 
         srpn.processCommand("1");
 
-        assertEquals(1, srpn.inputs.remove(0));
+        assertEquals(1, srpn.numberInputs.removeFirst());
     }
 
     //Test 1.1
@@ -143,5 +142,16 @@ public class SRPNTest {
         String output = OperatorProcessor.processEquals(srpn.currentAnswer);
 
         assertEquals("25", output);
+    }
+
+    @Test
+    void SingleLinePolishNotation_performsCommandsInOrder() {
+        SRPN srpn = new SRPN();
+
+        srpn.processCommand("3 3 +");
+
+        String output = OperatorProcessor.processEquals(srpn.currentAnswer);
+
+        assertEquals("6", output);
     }
 }
