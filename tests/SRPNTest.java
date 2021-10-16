@@ -101,15 +101,6 @@ public class SRPNTest {
         assertEquals("Stack empty.", output);
     }
 
-//    @Test
-//    void processOperator_OperatorWhenNoNumberToProcess_ReturnsStackUnderflowMessage() {
-//        SRPN SRPN = new SRPN();
-//
-//        String output = SRPN.processOperator("+");
-//
-//        assertEquals("Stack underflow.", output);
-//    }
-
     @Test
     void Test2_MultipleNumbersAndOperators_performsCommandsInOrder() {
         SRPN srpn = new SRPN();
@@ -153,5 +144,36 @@ public class SRPNTest {
         String output = OperatorProcessor.processEquals(srpn.currentAnswer);
 
         assertEquals("6", output);
+    }
+
+    @Test
+    void Test3_IntegerSaturationAtMax_returnsMaxInt() {
+        SRPN srpn = new SRPN();
+
+        srpn.processCommand("2147483647");
+        srpn.processCommand("1");
+        srpn.processCommand("+");
+        srpn.processCommand("=");
+
+        String output = OperatorProcessor.processEquals(srpn.currentAnswer);
+
+        assertEquals("2147483647", output);
+    }
+
+    @Test
+    void Test3_IntegerSaturationAtMin_returnsMinInt() {
+        SRPN srpn = new SRPN();
+
+        srpn.processCommand("-2147483647");
+        srpn.processCommand("1");
+        srpn.processCommand("-");
+        srpn.processCommand("=");
+        srpn.processCommand("20");
+        srpn.processCommand("-");
+        srpn.processCommand("=");
+
+        String output = OperatorProcessor.processEquals(srpn.currentAnswer);
+
+        assertEquals("-2147483648", output);
     }
 }

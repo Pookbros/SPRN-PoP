@@ -33,6 +33,7 @@ public class OperatorProcessor {
               return null;
         }
 
+        // Handle int saturation
         if (result < Integer.MIN_VALUE){
             return Integer.MIN_VALUE;
         }

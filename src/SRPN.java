@@ -34,15 +34,19 @@ public class SRPN {
                 Integer numberInput = Integer.parseInt(command);
                 numberInputs.addFirst(numberInput);
             } catch (NumberFormatException e) {
-                // Check if command contains an equals first
-                if (command.contains(Operators.EQUALS)) {
-                    System.out.println(OperatorProcessor.processEquals(numberInputs.peekFirst()));
-                }
-                // Then do other operations
-                if (command.contains("d") ) {
-                    printOutInputs();
-                } else if (!command.isEmpty()) {
-                    processOperator(command);
+                // Iterate through command string
+                for (int i = 0; i < command.length(); i++) {
+                    String singleCommand = String.valueOf(command.charAt(i));
+                    // Check if command contains an equals first
+                    if (singleCommand.contains(Operators.EQUALS)) {
+                        System.out.println(OperatorProcessor.processEquals(numberInputs.peekFirst()));
+                    }
+                    // Then do other operations
+                    if (singleCommand.contains("d")) {
+                        printOutInputs();
+                    } else {
+                        processOperator(singleCommand);
+                    }
                 }
             }
         }
