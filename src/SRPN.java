@@ -1,15 +1,13 @@
+import Constants.Operators;
 import java.util.*;
 
 /**
- * SPRN (Saturated Reverse Polish Notation) calculator class that takes commands and returns a response based on the command.
+ * SPRN (Saturated Reverse Polish Notation) calculator class that takes commands and applies them.
  * If command is a number, it will add to the 'inputs' ArrayList.
  * if command is an operator, it will perform that calculation and add it to the 'currentAnswer' variable.
  * If command is an equals operator, it will return the currentAnswer to the calling function.
  */
 public class SRPN {
-
-    Integer currentAnswer;
-    //Deque<Integer> numberInputs = new ArrayDeque<>();
 
     /**
      * Returns a String with the result of the current command to be printed to the console.
@@ -20,17 +18,6 @@ public class SRPN {
      * @param command the command to be processed
      */
     public void processCommand(String command) throws IllegalStateException {
-        // Is it an integer?
-        // Is it an allowed operator?
-        // Is it 'd'?
-        // Else throw
-
-        // Split input line out into individual commands
-        // If command is invalid, print to console and continue
-        // If it's 'd', print everything and continue
-        // Other custom letter commands next
-        // If it's a number, add it to the stack of numbers
-        // If it's an operator, apply it to the stack of numbers
 
         String[] commandList = command.split(" ");
 
@@ -47,13 +34,9 @@ public class SRPN {
                 }
                 return;
             }
-            // Try parse command to a number and add it to the stack
-            if (!Stack.addNumber(command)) {
-                // First check command for "=" (accounts for command such as "+=")
-                if (command.contains(Operators.EQUALS)) {
-                    System.out.println(OperatorProcessor.processEquals());
-                    command = command.replace(Operators.EQUALS, "");
-                }
+
+            // Try parse command to a number and add it to the stack. If not a number, process other operators
+            if (!NumberStack.push(command.strip())) {
                 if (!command.isEmpty()) {
                     try {
                         OperatorProcessor.process(command);

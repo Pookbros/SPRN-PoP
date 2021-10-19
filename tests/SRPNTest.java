@@ -6,7 +6,7 @@ public class SRPNTest {
 
     @AfterEach
     public final void cleanup(){
-        Stack.clear();
+        NumberStack.clear();
     }
 
     @Test
@@ -15,7 +15,7 @@ public class SRPNTest {
 
         srpn.processCommand("1");
 
-        assertEquals(1, Stack.removeNumber());
+        assertEquals(1, NumberStack.pop());
     }
 
 
@@ -101,7 +101,7 @@ public class SRPNTest {
     void processCommands_EqualsWhenNoAnswer_ReturnsStackEmptyMessage() {
         SRPN srpn = new SRPN();
 
-        Stack.clear();
+        NumberStack.clear();
 
         String output = OperatorProcessor.processEquals();
 
