@@ -1,22 +1,3 @@
-//import java.util.Scanner;
-//
-//public class Main {
-//
-//    public static void main(String[] args) {
-//
-//        Scanner scanner = new Scanner(System.in);
-//        SRPN sprn = new SRPN();
-//        String userInput;
-//
-//        do {
-//            userInput = scanner.nextLine();
-//            String output = sprn.processCommands(userInput);
-//
-//            if (output != null) System.out.println(output);
-//        } while (!userInput.isEmpty());
-//    }
-//}
-
 import java.io.*;
 
 class Main {

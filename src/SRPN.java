@@ -3,9 +3,9 @@ import java.util.*;
 
 /**
  * SPRN (Saturated Reverse Polish Notation) calculator class that takes commands and applies them.
- * If command is a number, it will add to the 'inputs' ArrayList.
- * if command is an operator, it will perform that calculation and add it to the 'currentAnswer' variable.
- * If command is an equals operator, it will return the currentAnswer to the calling function.
+ * If command is a number, it will add to the 'NumberStack'.
+ * if command is an operator, it will perform that calculation and add it to the front of the NumberStack.
+ * If command is an equal's operator, it will print the value at the front of the stack to the console.
  */
 public class SRPN {
 
@@ -36,16 +36,13 @@ public class SRPN {
             }
 
             // Try parse command to a number and add it to the stack. If not a number, process other operators
-            if (!NumberStack.push(command.strip())) {
-                if (!command.isEmpty()) {
-                    try {
-                        OperatorProcessor.process(command);
-
-                    } catch (NoSuchElementException ex) {
-                        System.out.println("Stack underflow.");
-                    } catch (ArithmeticException ex) {
-                        System.out.println("Divide by 0.");
-                    }
+            if (!NumberStack.push(command.strip()) && !command.isEmpty()) {
+                try {
+                    OperatorProcessor.process(command);
+                } catch (NoSuchElementException ex) {
+                    System.out.println("Stack underflow.");
+                } catch (ArithmeticException ex) {
+                    System.out.println("Divide by 0.");
                 }
             }
         }

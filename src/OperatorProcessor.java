@@ -74,13 +74,13 @@ public class OperatorProcessor {
         }
     }
 
-    public static String processEquals() {
+    private static String processEquals() {
         Integer currentAnswer = NumberStack.peek();
 
         if (currentAnswer == null)
             return "Stack empty.";
         else
-            return formatOutput(currentAnswer);
+            return String.format("%s", currentAnswer);
     }
 
     private static void processRandom() {
@@ -101,11 +101,6 @@ public class OperatorProcessor {
         } else {
             NumberStack.push((int) result);
         }
-    }
-
-
-    private static String formatOutput(Integer output) {
-        return String.format("%s", output);
     }
 
     // Checks stack size before removing any elements
