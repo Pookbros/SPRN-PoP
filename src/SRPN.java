@@ -28,13 +28,6 @@ public class SRPN {
                 processCommand(c);
             }
         } else {
-            if (OperatorProcessor.commentMode) {
-                if (command.contains(Operators.COMMENT)) {
-                    OperatorProcessor.commentMode = false;
-                }
-                return;
-            }
-
             // Try parse command to a number and add it to the stack. If not a number, process other operators
             if (!NumberStack.push(command.strip()) && !command.isEmpty()) {
                 try {

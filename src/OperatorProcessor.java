@@ -21,6 +21,13 @@ public class OperatorProcessor {
         // Using long for the result so the code can check whether the value is higher than the max or min int value
         long result;
 
+        if (OperatorProcessor.commentMode) {
+            if (operator.contains(Operators.COMMENT)) {
+                OperatorProcessor.commentMode = false;
+            }
+            return;
+        }
+
         // First check command for "=", process it and then remove if there are any (accounts for command such as "+=")
         if (operator.contains(Operators.EQUALS)) {
             System.out.println(OperatorProcessor.processEquals());
@@ -74,7 +81,7 @@ public class OperatorProcessor {
         }
     }
 
-    private static String processEquals() {
+    public static String processEquals() {
         Integer currentAnswer = NumberStack.peek();
 
         if (currentAnswer == null)
